@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
-import { Menu, X, ShoppingCart, User, Settings, ChevronDown } from "lucide-react"
+import { Menu, X, ShoppingCart, User, Settings, ChevronDown, Search } from "lucide-react"
 import { useSupabase } from "@/lib/supabase-provider"
 import { useCart } from "@/lib/cart-context"
 import MegaMenu from "./mega-menu"
@@ -14,6 +14,8 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false)
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
   const [user, setUser] = useState(null)
   const [isAdmin, setIsAdmin] = useState(false)
   const pathname = usePathname()
@@ -22,6 +24,7 @@ export default function Header() {
   const accountMenuRef = useRef(null)
   const megaMenuRef = useRef(null)
   const megaMenuTriggerRef = useRef(null)
+  const searchInputRef = useRef(null)
   const router = useRouter()
 
   // Category groups for mobile menu
@@ -119,6 +122,13 @@ export default function Header() {
     setIsMenuOpen(false)
   }, [pathname])
 
+  // Focus search input when search box opens
+  useEffect(() => {
+    if (isSearchOpen && searchInputRef.current) {
+      searchInputRef.current.focus()
+    }
+  }, [isSearchOpen])
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
@@ -133,6 +143,19 @@ export default function Header() {
 
   const toggleMegaMenu = () => {
     setIsMegaMenuOpen(!isMegaMenuOpen)
+  }
+
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen)
+  }
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`)
+      setIsSearchOpen(false)
+      setSearchQuery("")
+    }
   }
 
   const navLinks = [
@@ -195,6 +218,11 @@ export default function Header() {
         </nav>
 
         <div className="hidden md:flex items-center space-x-4">
+          {/* Search Icon */}
+          <button onClick={toggleSearch} className="relative">
+            <Search className="h-6 w-6" />
+          </button>
+
           <Link href="/cart" className="relative">
             <ShoppingCart className="h-6 w-6" />
             {cartItems.length > 0 && (
@@ -261,6 +289,34 @@ export default function Header() {
         </button>
       </div>
 
+      {/* Search overlay */}
+      {isSearchOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-24">
+          <div className="bg-white rounded-lg w-full max-w-2xl mx-4 overflow-hidden">
+            <form onSubmit={handleSearch} className="flex items-center p-4">
+              <input
+                ref={searchInputRef}
+                type="text"
+                placeholder="Search for products..."
+                className="flex-1 p-2 border-b-2 border-gray-200 focus:border-amber-500 outline-none text-lg"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <button type="submit" className="ml-4 text-amber-500 hover:text-amber-600">
+                <Search className="h-6 w-6" />
+              </button>
+              <button 
+                type="button" 
+                onClick={() => setIsSearchOpen(false)} 
+                className="ml-2 text-gray-500 hover:text-gray-700"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Mega Menu - positioned outside the header container for full width */}
       {isMegaMenuOpen && (
         <div ref={megaMenuRef} className="fixed left-0 right-0 top-20 z-40">
@@ -282,6 +338,25 @@ export default function Header() {
         </div>
 
         <div className="overflow-y-auto h-[calc(100vh-64px)]">
+          {/* Search in mobile menu */}
+          <div className="p-4 border-b">
+            <form onSubmit={handleSearch} className="flex items-center">
+              <input
+                type="text"
+                placeholder="Search for products..."
+                className="flex-1 p-2 border rounded-l-md border-gray-300 focus:outline-none"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <button 
+                type="submit" 
+                className="bg-amber-500 text-white p-2 rounded-r-md"
+              >
+                <Search className="h-5 w-5" />
+              </button>
+            </form>
+          </div>
+
           <nav className="p-4">
             <ul className="space-y-4">
               <li>

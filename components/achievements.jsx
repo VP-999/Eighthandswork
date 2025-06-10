@@ -14,7 +14,7 @@ export default function Achievements() {
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto">
-        <h2 className="section-title">Our Achievements</h2>
+        <h2 className="section-title">Our Clients</h2>
         <p className="text-center text-gray-600 max-w-3xl mx-auto mb-12">
           We have successfully worked with numerous prestigious clients across various industries, delivering
           exceptional quality and service.
