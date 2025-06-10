@@ -10,7 +10,7 @@ export default function Hero() {
           muted 
           className="object-cover w-full h-full"
         >
-          <source src="/hero.mp4" type="video/mp4" />
+          <source src="/herolow.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
