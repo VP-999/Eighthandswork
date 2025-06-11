@@ -19,23 +19,17 @@ export class ProductService {
   // Get product by ID
   static async getProductById(id) {
     try {
-      if (!id) {
-        throw new Error("Product ID is required")
+      console.log(`Getting product with ID: ${id}`)
+      const data = await ProductModel.findById(id)
+      
+      if (!data) {
+        return { success: false, error: "Product not found", data: null }
       }
-
-      const result = await ProductModel.findById(id)
-      if (!result.success) {
-        throw new Error(result.error)
-      }
-
-      if (!result.data) {
-        throw new Error("Product not found")
-      }
-
-      return result
+      
+      return { success: true, data, error: null }
     } catch (error) {
-      console.error("ProductService - getProductById error:", error)
-      return { success: false, data: null, error: error.message }
+      console.error(`ProductService - getProductById error:`, error)
+      return { success: false, error: error.message, data: null }
     }
   }
 
@@ -92,42 +86,38 @@ export class ProductService {
   // Update product
   static async updateProduct(id, productData) {
     try {
-      if (!id) {
-        throw new Error("Product ID is required")
+      console.log(`Updating product ${id} with data:`, productData)
+      
+      // Prepare the data for update
+      const updateData = {
+        ...productData,
+        updated_at: new Date().toISOString()
       }
-
-      // Check if product exists
-      const existingProduct = await ProductModel.findById(id)
-      if (!existingProduct.success) {
-        throw new Error("Product not found")
+      
+      // Make sure numerical values are properly converted
+      if (updateData.price !== undefined) {
+        updateData.price = parseFloat(updateData.price)
       }
-
-      // Validate price if provided
-      if (productData.price !== undefined) {
-        const price = Number.parseFloat(productData.price)
-        if (isNaN(price) || price <= 0) {
-          throw new Error("Price must be a positive number")
-        }
-        productData.price = price
+      
+      if (updateData.discount_price) {
+        updateData.discount_price = parseFloat(updateData.discount_price)
+      } else if (updateData.discount_price === "") {
+        updateData.discount_price = null
       }
-
-      // Validate category if provided
-      if (productData.category) {
-        const categoryResult = await CategoryModel.findByName(productData.category)
-        if (!categoryResult.success) {
-          throw new Error("Invalid category")
-        }
+      
+      // Execute the update
+      const result = await ProductModel.update(id, updateData)
+      
+      console.log("Update result:", result)
+      
+      if (!result) {
+        return { success: false, error: "Failed to update product" }
       }
-
-      const result = await ProductModel.update(id, productData)
-      if (!result.success) {
-        throw new Error(result.error)
-      }
-
-      return result
+      
+      return { success: true, data: result }
     } catch (error) {
-      console.error("ProductService - updateProduct error:", error)
-      return { success: false, data: null, error: error.message }
+      console.error("ProductService.updateProduct error:", error)
+      return { success: false, error: error.message }
     }
   }
 

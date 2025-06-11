@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "../config/database.js"
+import { supabase } from "@/lib/supabase-client"
 
 export class ProductModel {
   static tableName = "products"
@@ -41,13 +41,23 @@ export class ProductModel {
   // Get product by ID
   static async findById(id) {
     try {
-      const { data, error } = await supabaseAdmin.from(this.tableName).select("*").eq("id", id).single()
-
-      if (error) throw error
-      return { success: true, data, error: null }
+      console.log(`Finding product with ID: ${id}`)
+      // Add nocache parameter to force a fresh request
+      const { data, error } = await supabase
+        .from(this.tableName)
+        .select("*")
+        .eq("id", id)
+        .single()
+      
+      if (error) {
+        console.error(`Error finding product ${id}:`, error)
+        throw error
+      }
+      
+      return data
     } catch (error) {
-      console.error("Error finding product by ID:", error)
-      return { success: false, data: null, error: error.message }
+      console.error(`Error finding product ${id}:`, error)
+      throw error
     }
   }
 
@@ -84,24 +94,43 @@ export class ProductModel {
   // Update product
   static async update(id, productData) {
     try {
-      const updateData = {
-        updated_at: new Date().toISOString(),
+      console.log(`Model updating product ${id}`)
+      
+      // Remove any undefined values to prevent Supabase errors
+      const cleanedData = {...productData}
+      Object.keys(cleanedData).forEach(key => {
+        if (cleanedData[key] === undefined) {
+          delete cleanedData[key]
+        }
+      })
+
+      // Ensure consistent data types for numeric fields
+      if (cleanedData.price !== undefined) {
+        cleanedData.price = parseFloat(cleanedData.price)
       }
-
-      if (productData.name !== undefined) updateData.name = productData.name
-      if (productData.description !== undefined) updateData.description = productData.description
-      if (productData.price !== undefined) updateData.price = productData.price
-      if (productData.image_url !== undefined) updateData.image_url = productData.image_url
-      if (productData.category !== undefined) updateData.category = productData.category
-      if (productData.in_stock !== undefined) updateData.in_stock = productData.in_stock
-
-      const { data, error } = await supabaseAdmin.from(this.tableName).update(updateData).eq("id", id).select().single()
-
-      if (error) throw error
-      return { success: true, data, error: null }
+      
+      if (cleanedData.discount_price !== undefined && cleanedData.discount_price !== null) {
+        cleanedData.discount_price = parseFloat(cleanedData.discount_price)
+      }
+      
+      // Use the imported supabase client
+      const { data, error } = await supabase
+        .from(this.tableName)
+        .update(cleanedData)
+        .eq('id', id)
+        .select()
+        .single()
+      
+      if (error) {
+        console.error("Supabase update error:", error)
+        throw error
+      }
+      
+      console.log("Update succeeded, returning:", data)
+      return data
     } catch (error) {
-      console.error("Error updating product:", error)
-      return { success: false, data: null, error: error.message }
+      console.error(`Error updating product ${id}:`, error)
+      throw error
     }
   }
 

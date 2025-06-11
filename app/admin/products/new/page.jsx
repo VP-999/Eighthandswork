@@ -281,7 +281,6 @@ export default function NewProduct() {
                 </div>
 
                 {/* Image URL Input */}
-                {/* Image URL Input */}
                 <div>
                   <label htmlFor="image_url" className="block text-sm font-medium text-gray-700 mb-1">
                     Image URL
@@ -289,7 +288,7 @@ export default function NewProduct() {
                   <div className="flex items-center">
                     <LinkIcon className="h-5 w-5 text-gray-400 mr-2" />
                     <input
-                      type="url"
+                      type="text" // Changed from "url" to "text" for more flexibility
                       id="image_url"
                       name="image_url"
                       value={formData.image_url}
@@ -305,7 +304,7 @@ export default function NewProduct() {
                     <div className="mt-2">
                       <p className="text-xs text-gray-500 mb-1">Preview:</p>
                       <img
-                        src={formData.image_url || "/placeholder.svg"}
+                        src={formData.image_url.match(/^https?:\/\//) ? formData.image_url : `https://${formData.image_url}`}
                         alt="Preview"
                         className="h-40 object-contain border rounded"
                         onError={(e) => {
