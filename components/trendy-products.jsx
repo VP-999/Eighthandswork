@@ -1,9 +1,16 @@
 "use client"
 
+import { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function TrendyProducts({ products = [] }) {
+  // Refs for scrollable containers
+  const tablesScrollRef = useRef(null);
+  const chairsScrollRef = useRef(null);
+  const desksScrollRef = useRef(null);
+
   // Group products by category
   const tables = products.filter(product => 
     product.category?.includes('Table') || 
@@ -27,22 +34,58 @@ export default function TrendyProducts({ products = [] }) {
   // Create a placeholder image
   const placeholderImage = "https://images.pexels.com/photos/1866149/pexels-photo-1866149.jpeg?auto=compress&cs=tinysrgb&w=800";
 
-  // Function to render a product grid
-  const renderProductGrid = (products) => (
-    <div className="mb-24">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+  // Scroll handlers
+  const scroll = (ref, direction) => {
+    if (ref.current) {
+      const scrollAmount = direction === 'left' ? -200 : 200;
+      ref.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
+  // Function to render a product grid with category heading
+  const renderProductGrid = (products, categoryTitle, scrollRef) => (
+    <div className="mb-8">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-xl font-medium text-amber-600">{categoryTitle}</h3>
+        
+        {/* Navigation arrows - only visible on mobile */}
+        <div className="flex md:hidden space-x-2">
+          <button 
+            onClick={() => scroll(scrollRef, 'left')}
+            className="p-1 bg-amber-100 rounded-full hover:bg-amber-200"
+            aria-label="Scroll left"
+          >
+            <ChevronLeft size={20} className="text-amber-600" />
+          </button>
+          <button 
+            onClick={() => scroll(scrollRef, 'right')}
+            className="p-1 bg-amber-100 rounded-full hover:bg-amber-200"
+            aria-label="Scroll right"
+          >
+            <ChevronRight size={20} className="text-amber-600" />
+          </button>
+        </div>
+      </div>
+      
+      {/* Mobile: Horizontal scrollable container */}
+      <div 
+        ref={scrollRef}
+        className="flex md:hidden overflow-x-auto gap-3 pb-4 scrollbar-hide"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
         {products.map((product) => (
-          <div key={product.id} className="bg-white p-4 shadow-sm hover:shadow-md transition-shadow">
+          <div 
+            key={`mobile-${product.id}`} 
+            className="min-w-[200px] bg-white p-3 shadow-sm hover:shadow-md transition-shadow rounded-md"
+          >
             <Link href={`/products/${product.id}`}>
-              <div className="relative h-64 mb-4 overflow-hidden rounded-md">
+              <div className="relative h-40 mb-2 overflow-hidden rounded-md">
                 <Image
                   src={product.image_url || placeholderImage}
                   alt={product.name}
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-300"
-                  onError={(e) => {
-                    e.target.src = placeholderImage;
-                  }}
+                  onError={(e) => { e.target.src = placeholderImage; }}
                 />
                 {product.discount_price && (
                   <span className="absolute top-2 right-2 bg-amber-500 text-white px-2 py-1 text-xs rounded-md">
@@ -50,20 +93,56 @@ export default function TrendyProducts({ products = [] }) {
                   </span>
                 )}
               </div>
-              <h3 className="font-medium text-lg">{product.name}</h3>
-              <div className="flex items-center mt-1 mb-2">
-                <div className="flex text-amber-500">
-                  {"★★★★★"}
-                </div>
+              <h3 className="font-medium text-sm truncate">{product.name}</h3>
+              <div className="flex items-center mt-1 mb-1">
+                <div className="flex text-amber-500 text-xs">{"★★★★★"}</div>
               </div>
               <div className="flex items-center">
                 {product.discount_price ? (
                   <>
-                    <span className="text-amber-600 font-bold">${product.discount_price.toFixed(2)}</span>
-                    <span className="ml-2 text-gray-400 line-through">${product.price.toFixed(2)}</span>
+                    <span className="text-amber-600 font-bold text-sm">${product.discount_price.toFixed(2)}</span>
+                    <span className="ml-2 text-gray-400 line-through text-xs">${product.price.toFixed(2)}</span>
                   </>
                 ) : (
-                  <span className="text-gray-800 font-bold">${product.price.toFixed(2)}</span>
+                  <span className="text-gray-800 font-bold text-sm">${product.price.toFixed(2)}</span>
+                )}
+              </div>
+            </Link>
+          </div>
+        ))}
+      </div>
+      
+      {/* Desktop: Grid layout */}
+      <div className="hidden md:grid grid-cols-4 gap-4">
+        {products.map((product) => (
+          <div key={product.id} className="bg-white p-3 shadow-sm hover:shadow-md transition-shadow rounded-md">
+            <Link href={`/products/${product.id}`}>
+              <div className="relative h-40 mb-2 overflow-hidden rounded-md">
+                <Image
+                  src={product.image_url || placeholderImage}
+                  alt={product.name}
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-300"
+                  onError={(e) => { e.target.src = placeholderImage; }}
+                />
+                {product.discount_price && (
+                  <span className="absolute top-2 right-2 bg-amber-500 text-white px-2 py-1 text-xs rounded-md">
+                    SALE
+                  </span>
+                )}
+              </div>
+              <h3 className="font-medium text-sm truncate">{product.name}</h3>
+              <div className="flex items-center mt-1 mb-1">
+                <div className="flex text-amber-500 text-xs">{"★★★★★"}</div>
+              </div>
+              <div className="flex items-center">
+                {product.discount_price ? (
+                  <>
+                    <span className="text-amber-600 font-bold text-sm">${product.discount_price.toFixed(2)}</span>
+                    <span className="ml-2 text-gray-400 line-through text-xs">${product.price.toFixed(2)}</span>
+                  </>
+                ) : (
+                  <span className="text-gray-800 font-bold text-sm">${product.price.toFixed(2)}</span>
                 )}
               </div>
             </Link>
@@ -74,19 +153,26 @@ export default function TrendyProducts({ products = [] }) {
   );
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-8 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-medium text-center mb-16">TRENDY PRODUCTS</h2>
+        <h2 className="text-2xl font-medium text-center mb-8">TRENDY PRODUCTS</h2>
         
         {/* Tables Row */}
-        {renderProductGrid(tables)}
+        {renderProductGrid(tables, "Epoxy Table", tablesScrollRef)}
         
         {/* Chairs Row */}
-        {renderProductGrid(chairs)}
+        {renderProductGrid(chairs, "Epoxy Chair", chairsScrollRef)}
         
         {/* Desks Row */}
-        {renderProductGrid(desks)}
+        {renderProductGrid(desks, "Epoxy Desk", desksScrollRef)}
       </div>
+
+      {/* Add custom CSS to hide scrollbar */}
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 }

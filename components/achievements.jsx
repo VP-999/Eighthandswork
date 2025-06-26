@@ -13,18 +13,21 @@ export default function Achievements() {
 
   return (
     <section className="py-16 bg-white">
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         <h2 className="section-title">Our Clients</h2>
         <p className="text-center text-gray-600 max-w-3xl mx-auto mb-12">
           We have successfully worked with numerous prestigious clients across various industries, delivering
           exceptional quality and service.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6">
           {achievements.map((achievement, index) => (
-            <div key={index} className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-bold mb-2">{achievement.name}</h3>
-              <p className="text-gray-600">{achievement.description}</p>
+            <div 
+              key={index} 
+              className="bg-gray-50 p-2 sm:p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+            >
+              <h3 className="text-sm sm:text-xl font-bold mb-1 sm:mb-2 truncate">{achievement.name}</h3>
+              <p className="text-xs sm:text-base text-gray-600 line-clamp-2 sm:line-clamp-none">{achievement.description}</p>
             </div>
           ))}
         </div>
