@@ -34,7 +34,7 @@ export default function AboutSection() {
             </div>
             <div className="aspect-square relative rounded-lg shadow-lg overflow-hidden">
               <Image
-                src="/431004194_720510356811733_8702085066583440443_n.png"
+                src="/product12.png"
                 alt="Eight Hands Work Furniture"
                 fill
                 className="object-cover"
@@ -42,19 +42,18 @@ export default function AboutSection() {
             </div>
             <div className="aspect-square relative rounded-lg shadow-lg overflow-hidden">
               <Image
-                src="/431214722_720510426811726_2133496110283236576_n.png"
+                src="/product21.png"
                 alt="Eight Hands Work Furniture"
                 fill
                 className="object-cover"
               />
             </div>
-            <div className="aspect-square relative rounded-lg shadow-lg overflow-hidden bg-gray-900 p-4 flex items-center justify-center">
+            <div className="aspect-square relative rounded-lg shadow-lg overflow-hidden">
               <Image
-                src="/Logo PNG _2.png"
-                alt="Eight Hands Work Logo"
-                width={150}
-                height={150}
-                className="object-contain"
+                src="/product3.png"
+                alt="Eight Hands Work Furniture"
+                fill
+                className="object-cover"
               />
             </div>
           </div>

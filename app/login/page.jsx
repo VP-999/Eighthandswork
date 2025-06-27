@@ -53,57 +53,6 @@ export default function Login() {
     }
   }
 
-  const handleAdminLogin = async () => {
-    setIsLoading(true)
-    setError(null)
-
-    try {
-      const adminEmail = "admin@example.com"
-      const adminPassword = "Admin123!"
-
-      // First try to sign in
-      const { data, error: signInError } = await authAPI.signIn(adminEmail, adminPassword)
-
-      if (signInError && signInError.includes("Invalid login credentials")) {
-        // Admin doesn't exist, create it
-        setSuccess("Creating admin account...")
-        const { error: createError } = await authAPI.createAdminUser()
-
-        if (createError) {
-          throw new Error(createError)
-        }
-
-        // Now try to sign in again
-        const { data: retryData, error: retryError } = await authAPI.signIn(adminEmail, adminPassword)
-
-        if (retryError) {
-          throw new Error(retryError)
-        }
-
-        if (retryData?.user) {
-          setSuccess("Admin account created and logged in successfully!")
-          setTimeout(() => {
-            router.push("/admin/dashboard")
-            router.refresh()
-          }, 1500)
-        }
-      } else if (signInError) {
-        throw new Error(signInError)
-      } else if (data?.user) {
-        setSuccess("Admin login successful!")
-        setTimeout(() => {
-          router.push("/admin/dashboard")
-          router.refresh()
-        }, 1000)
-      }
-    } catch (error) {
-      console.error("Admin login error:", error)
-      setError(error.message || "Admin login failed")
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   if (!isInitialized) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -191,21 +140,6 @@ export default function Login() {
             </button>
           </div>
         </form>
-
-        {/* Admin login shortcut */}
-        <div className="mt-4 border-t pt-4">
-          <p className="text-center text-sm text-gray-600 mb-2">For demo purposes:</p>
-          <button
-            onClick={handleAdminLogin}
-            disabled={isLoading}
-            className="w-full flex justify-center py-2 px-4 border border-amber-300 text-sm font-medium rounded-md text-amber-700 bg-amber-50 hover:bg-amber-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50"
-          >
-            {isLoading ? "Processing..." : "Login as Admin"}
-          </button>
-          <p className="text-xs text-gray-500 mt-1 text-center">
-            This will create an admin account if it doesn't exist
-          </p>
-        </div>
       </div>
     </div>
   )

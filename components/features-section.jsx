@@ -1,50 +1,97 @@
+"use client"
+
+import React, { useState, useEffect, useRef } from "react"
 import { Truck, Award, RotateCcw, HeadphonesIcon } from "lucide-react"
 
 export default function FeaturesSection() {
   const features = [
     {
-      iconMobile: <Truck className="h-3 w-3 text-amber-500" />,
-      iconDesktop: <Truck className="h-8 w-8 text-amber-500" />,
+      iconMobile: <Truck className="h-8 w-8 text-black" />,
+      iconDesktop: <Truck className="h-8 w-8 text-black" />,
       title: "Free Shipping",
       description: "On all orders above $500",
     },
     {
-      iconMobile: <Award className="h-3 w-3 text-amber-500" />,
-      iconDesktop: <Award className="h-8 w-8 text-amber-500" />,
+      iconMobile: <Award className="h-8 w-8 text-black" />,
+      iconDesktop: <Award className="h-8 w-8 text-black" />,
       title: "Quality Assurance",
       description: "100% handcrafted quality",
     },
     {
-      iconMobile: <RotateCcw className="h-3 w-3 text-amber-500" />,
-      iconDesktop: <RotateCcw className="h-8 w-8 text-amber-500" />,
+      iconMobile: <RotateCcw className="h-8 w-8 text-black" />,
+      iconDesktop: <RotateCcw className="h-8 w-8 text-black" />,
       title: "14-Day Returns",
       description: "Hassle-free return policy",
     },
     {
-      iconMobile: <HeadphonesIcon className="h-3 w-3 text-amber-500" />,
-      iconDesktop: <HeadphonesIcon className="h-8 w-8 text-amber-500" />,
+      iconMobile: <HeadphonesIcon className="h-8 w-8 text-black" />,
+      iconDesktop: <HeadphonesIcon className="h-8 w-8 text-black" />,
       title: "24/7 Support",
       description: "Dedicated customer service",
     },
   ]
 
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const intervalRef = useRef(null)
+
+  // Function to handle moving to the next slide
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev === features.length - 1 ? 0 : prev + 1))
+  }
+
+  // Set up the auto-rotation
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      nextSlide()
+    }, 3000) // Change slide every 3 seconds
+    
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current)
+      }
+    }
+  }, [])
+
+  // Function to manually change slides
+  const goToSlide = (index) => {
+    setCurrentSlide(index)
+    // Reset the interval when manually changing slides
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current)
+    }
+    intervalRef.current = setInterval(() => {
+      nextSlide()
+    }, 3000)
+  }
+
   return (
-    <section className="py-12 bg-white">
+    <section className="py-12 bg-gray-50">
       <div className="container mx-auto px-4">
-        {/* Mobile view: Flex row with all 4 items in one line */}
-        <div className="flex flex-row justify-between md:hidden">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="flex flex-col items-center text-center p-1 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow w-[23%]"
-            >
-              <div className="mb-1 p-1 bg-amber-100 rounded-full">
-                {feature.iconMobile}
+        {/* Mobile view: Carousel/Slider */}
+        <div className="md:hidden">
+          <div className="text-center px-6 py-8">
+            <div className="flex justify-center mb-6">
+              <div className="p-3 bg-white rounded-full">
+                {features[currentSlide].iconMobile}
               </div>
-              <h3 className="text-[10px] font-bold leading-tight">{feature.title}</h3>
-              <p className="text-[8px] text-gray-600 leading-tight">{feature.description}</p>
             </div>
-          ))}
+            <h3 className="text-sm font-bold tracking-wide mb-2">{features[currentSlide].title}</h3>
+            <p className="text-sm text-gray-600 leading-relaxed">{features[currentSlide].description}</p>
+          </div>
+          
+          {/* Navigation dots */}
+          <div className="flex justify-center mt-4 space-x-2">
+            {features.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`h-2 w-2 rounded-full ${
+                  index === currentSlide ? "bg-black" : "bg-gray-300"
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Desktop view: Original grid layout */}
@@ -52,9 +99,9 @@ export default function FeaturesSection() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="flex flex-col items-center text-center p-6 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+              className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
             >
-              <div className="mb-4 p-3 bg-amber-100 rounded-full">
+              <div className="mb-4 p-3 bg-white rounded-full">
                 {feature.iconDesktop}
               </div>
               <h3 className="text-xl font-bold mb-2">{feature.title}</h3>

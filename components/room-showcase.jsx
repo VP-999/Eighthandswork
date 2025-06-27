@@ -94,7 +94,7 @@ export default function RoomShowcase() {
           {rooms.map((room, roomIndex) => (
             <div 
               key={roomIndex}
-              className="group relative overflow-hidden rounded-lg shadow-lg h-36 sm:h-48 md:h-80"
+              className="group relative overflow-hidden rounded-2xl shadow-lg h-36 sm:h-48 md:h-80 border border-gray-100"
             >
               <div className="relative w-full h-full">
                 {room.images.map((image, imageIndex) => (
@@ -113,7 +113,7 @@ export default function RoomShowcase() {
                       src={image}
                       alt={`${room.name} - View ${imageIndex + 1}`}
                       fill
-                      className="object-cover"
+                      className="object-cover rounded-2xl"
                       priority={imageIndex === 0}
                     />
                   </motion.div>
@@ -165,13 +165,13 @@ export default function RoomShowcase() {
                 </button>
               </div>
               
-              <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition-all duration-300">
+              <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition-all duration-300 rounded-2xl">
                 <Link
                   href={`/products?category=${encodeURIComponent(room.category)}`}
                   className="absolute inset-0 flex flex-col items-center justify-center text-white p-2 md:p-6 z-5"
                 >
                   <motion.div 
-                    className="bg-white/80 backdrop-blur-sm text-gray-900 py-1 px-3 md:py-2 md:px-6 rounded-md mb-1 md:mb-3"
+                    className="bg-white/80 backdrop-blur-sm text-gray-900 py-1 px-3 md:py-2 md:px-6 rounded-xl mb-1 md:mb-3"
                     initial={{ y: -20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
