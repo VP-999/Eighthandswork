@@ -237,7 +237,7 @@ export default function Products() {
                       <h3 className="text-lg font-bold mb-2">{product.name}</h3>
                       <p className="text-gray-600 mb-2 line-clamp-2">{product.description}</p>
                       <div className="flex justify-between items-center">
-                        <span className="text-xl font-bold text-amber-500">${product.price}</span>
+                        <span className="text-xl font-bold text-amber-500">৳{product.price}</span>
                         <Link
                           href={`/products/${product.id}`}
                           className="text-sm text-gray-500 hover:text-amber-500 transition-colors"

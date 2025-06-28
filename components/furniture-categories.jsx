@@ -5,22 +5,28 @@ import Link from "next/link";
 export default function FurnitureCategories() {
   const categories = [
     {
-      name: "Night Stands",
-      icon: "/icon/night-stand.png",
-      description: "Perfect bedside companions for storage and style",
-      link: "/products?category=night-stand"
-    },
-    {
-      name: "Armchairs",
-      icon: "/icon/armchair.png",
-      description: "Comfortable seating with elegant designs",
-      link: "/products?category=armchair"
-    },
-    {
-      name: "Desks",
+      name: "Epoxy Table",
       icon: "/icon/desk.png",
-      description: "Functional workspaces for home and office",
-      link: "/products?category=desk"
+      description: "Stylish epoxy resin tables with unique designs",
+      link: "/products?category=epoxy-table"
+    },
+    {
+      name: "Epoxy Chair",
+      icon: "/icon/night-stand.png",
+      description: "Elegant and comfortable epoxy resin chairs",
+      link: "/products?category=epoxy-chair"
+    },
+    {
+      name: "Sofa",
+      icon: "/icon/armchair.png", // Using night-stand icon as placeholder for sofa
+      description: "Luxurious and comfortable sofas for your living room",
+      link: "/products?category=sofa"
+    },
+    {
+      name: "Interior",
+      icon: "/icon/intorior.png",
+      description: "Complete interior design solutions for your space",
+      link: "/products?category=interior"
     }
   ];
 
@@ -31,7 +37,7 @@ export default function FurnitureCategories() {
           Featured Categories
         </h2>
 
-        <div className="grid grid-cols-3 gap-2 md:gap-4 max-w-3xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 max-w-4xl mx-auto">
           {categories.map((category, index) => (
             <Link
               href={category.link}

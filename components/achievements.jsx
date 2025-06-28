@@ -31,10 +31,6 @@ export default function Achievements() {
       logo: "/logos/ecowood.png" 
     },
     { 
-      name: "Minimal", 
-      logo: "/placeholder-logo.svg"
-    },
-    { 
       name: "Navana Furniture", 
       logo: "/logos/navaba.png" 
     },
@@ -56,7 +52,7 @@ export default function Achievements() {
       <div className="container mx-auto px-4">
         <h2 className="section-title mb-6 md:mb-10">Our Clients</h2>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto">
           {clients.map((client, index) => (
             <div 
               key={index} 

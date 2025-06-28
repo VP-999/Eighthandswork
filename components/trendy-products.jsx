@@ -142,7 +142,7 @@ export default function TrendyProducts({ products = [] }) {
                     <span className="ml-2 text-gray-400 line-through text-xs">${product.price.toFixed(2)}</span>
                   </>
                 ) : (
-                  <span className="text-gray-800 font-bold text-sm">${product.price.toFixed(2)}</span>
+                  <span className="text-gray-800 font-bold text-sm">৳{product.price.toFixed(2)}</span>
                 )}
               </div>
             </Link>
