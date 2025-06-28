@@ -92,3 +92,16 @@ body {
     @apply bg-background text-foreground;
   }
 }
+<<<<<<< HEAD
+=======
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+>>>>>>> friend/main

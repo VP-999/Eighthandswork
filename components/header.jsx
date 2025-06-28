@@ -33,8 +33,13 @@ export default function Header() {
     Dining: "/products?category=Dining%20Table",
     Bedroom: "/products?category=Bedroom%20Set",
     Office: "/products?category=Office%20Desk",
+<<<<<<< HEAD
     Restaurant: "/products?category=Restaurant%20Set",
     Industrial: "/products?category=Industrial%20Solutions",
+=======
+    "New Arrivals": "/products?category=new-arrivals",
+    "Epoxy Items": "/products?category=epoxy",
+>>>>>>> friend/main
   }
 
   useEffect(() => {
@@ -158,6 +163,7 @@ export default function Header() {
     }
   }
 
+<<<<<<< HEAD
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
@@ -293,24 +299,172 @@ export default function Header() {
       {isSearchOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-24">
           <div className="bg-white rounded-lg w-full max-w-2xl mx-4 overflow-hidden">
+=======
+  // New navigation links as requested
+  const navLinks = [
+    { name: "Home", href: "/" },
+    { name: "Products", href: "/products", hasDropdown: true },
+    { name: "Rooms", href: "/rooms" },
+    { name: "New Arrival", href: "/products?category=new-arrivals" },
+    { name: "Interior", href: "/interior" },
+    { name: "Epoxy Services", href: "/epoxy-services" },
+    { name: "Resellers", href: "/resellers" },
+  ]
+
+  return (
+    <div className="fixed w-full z-50 flex justify-center mt-3 px-4">
+      <header
+        className={`w-full max-w-[1440px] rounded-full transition-all duration-300 ${
+          isScrolled ? "bg-white shadow-md" : "bg-white/70 backdrop-blur-md"
+        } py-2 px-4`}
+      >
+        <div className="flex justify-between items-center">
+          <Link href="/" className="flex items-center">
+            <Image src="/logo.png" alt="Eight Hands Work" width={130} height={52} className="h-10 w-auto" />
+          </Link>
+
+          <nav className="hidden md:flex items-center space-x-4 lg:space-x-6">
+            {navLinks.map((link) => 
+              link.hasDropdown ? (
+                <div className="relative" key={link.name} ref={megaMenuTriggerRef}>
+                  <button
+                    onClick={toggleMegaMenu}
+                    className={`flex items-center text-base font-medium hover:text-amber-500 transition-colors ${
+                      pathname.startsWith(link.href) ? "text-amber-500" : ""
+                    }`}
+                  >
+                    {link.name}
+                    <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${isMegaMenuOpen ? "rotate-180" : ""}`} />
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`text-base font-medium hover:text-amber-500 transition-colors ${pathname === link.href ? "text-amber-500" : ""}`}
+                >
+                  {link.name}
+                </Link>
+              )
+            )}
+
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className={`text-base font-medium text-amber-500 hover:text-amber-600 transition-colors flex items-center`}
+              >
+                <Settings className="h-4 w-4 mr-1" />
+                Admin
+              </Link>
+            )}
+          </nav>
+
+          <div className="hidden md:flex items-center space-x-5">
+            {/* Search Icon */}
+            <button onClick={toggleSearch} className="relative">
+              <Search className="h-5 w-5" />
+            </button>
+
+            <Link href="/cart" className="relative">
+              <ShoppingCart className="h-5 w-5" />
+              {cartItems.length > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-amber-500 text-white text-xs rounded-full h-4.5 w-4.5 flex items-center justify-center">
+                  {cartItems.length}
+                </span>
+              )}
+            </Link>
+
+            {user ? (
+              <div className="relative" ref={accountMenuRef}>
+                <button onClick={toggleAccountMenu} aria-label="Account menu">
+                  <User className="h-5 w-5 fill-black" />
+                </button>
+                {isAccountMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-44 bg-white rounded-md shadow-lg py-1 z-50">
+                    <Link
+                      href="/account"
+                      className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsAccountMenuOpen(false)}
+                    >
+                      My Account
+                    </Link>
+                    <Link
+                      href="/orders"
+                      className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsAccountMenuOpen(false)}
+                    >
+                      My Orders
+                    </Link>
+                    {isAdmin && (
+                      <Link
+                        href="/admin"
+                        className="block px-3 py-2 text-sm font-medium text-amber-500 hover:bg-amber-50"
+                        onClick={() => setIsAccountMenuOpen(false)}
+                      >
+                        Admin Dashboard
+                      </Link>
+                    )}
+                    <button
+                      onClick={async () => {
+                        await supabase.auth.signOut()
+                        setIsAccountMenuOpen(false)
+                        router.push("/")
+                      }}
+                      className="block w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link href="/login" aria-label="Login">
+                <User className="h-5 w-5" />
+              </Link>
+            )}
+          </div>
+
+          <button className="md:hidden" onClick={toggleMenu}>
+            <Menu className="h-5 w-5" />
+          </button>
+        </div>
+      </header>
+
+      {/* Search overlay */}
+      {isSearchOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-20">
+          <div className="bg-white rounded-lg w-full max-w-xl mx-4 overflow-hidden">
+>>>>>>> friend/main
             <form onSubmit={handleSearch} className="flex items-center p-4">
               <input
                 ref={searchInputRef}
                 type="text"
                 placeholder="Search for products..."
+<<<<<<< HEAD
                 className="flex-1 p-2 border-b-2 border-gray-200 focus:border-amber-500 outline-none text-lg"
+=======
+                className="flex-1 p-2 border-b-2 border-gray-200 focus:border-amber-500 outline-none text-base"
+>>>>>>> friend/main
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
               <button type="submit" className="ml-4 text-amber-500 hover:text-amber-600">
+<<<<<<< HEAD
                 <Search className="h-6 w-6" />
+=======
+                <Search className="h-5 w-5" />
+>>>>>>> friend/main
               </button>
               <button 
                 type="button" 
                 onClick={() => setIsSearchOpen(false)} 
                 className="ml-2 text-gray-500 hover:text-gray-700"
               >
+<<<<<<< HEAD
                 <X className="h-6 w-6" />
+=======
+                <X className="h-5 w-5" />
+>>>>>>> friend/main
               </button>
             </form>
           </div>
@@ -324,13 +478,18 @@ export default function Header() {
         </div>
       )}
 
+<<<<<<< HEAD
       {/* Mobile menu - redesigned to match the provided image */}
+=======
+      {/* Mobile menu */}
+>>>>>>> friend/main
       <div
         className={`fixed inset-0 bg-white z-50 transition-transform duration-300 ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex justify-between items-center p-4 border-b">
+<<<<<<< HEAD
           <h2 className="text-xl font-bold">Menu</h2>
           <button onClick={closeMenu} className="p-1">
             <X className="h-6 w-6" />
@@ -338,13 +497,26 @@ export default function Header() {
         </div>
 
         <div className="overflow-y-auto h-[calc(100vh-64px)]">
+=======
+          <h2 className="text-lg font-bold">Menu</h2>
+          <button onClick={closeMenu} className="p-1">
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        <div className="overflow-y-auto h-[calc(100vh-56px)]">
+>>>>>>> friend/main
           {/* Search in mobile menu */}
           <div className="p-4 border-b">
             <form onSubmit={handleSearch} className="flex items-center">
               <input
                 type="text"
                 placeholder="Search for products..."
+<<<<<<< HEAD
                 className="flex-1 p-2 border rounded-l-md border-gray-300 focus:outline-none"
+=======
+                className="flex-1 p-2 text-sm border rounded-l-md border-gray-300 focus:outline-none"
+>>>>>>> friend/main
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -352,12 +524,17 @@ export default function Header() {
                 type="submit" 
                 className="bg-amber-500 text-white p-2 rounded-r-md"
               >
+<<<<<<< HEAD
                 <Search className="h-5 w-5" />
+=======
+                <Search className="h-4 w-4" />
+>>>>>>> friend/main
               </button>
             </form>
           </div>
 
           <nav className="p-4">
+<<<<<<< HEAD
             <ul className="space-y-4">
               <li>
                 <Link
@@ -386,6 +563,28 @@ export default function Header() {
                   {Object.entries(categoryGroups).map(([name, href]) => (
                     <li key={name}>
                       <Link href={href} className="block py-2 text-gray-700" onClick={closeMenu}>
+=======
+            <ul className="space-y-3">
+              {navLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className={`block py-2 text-sm ${pathname === link.href || (link.hasDropdown && pathname.startsWith(link.href)) ? "text-amber-500 font-medium" : ""}`}
+                    onClick={closeMenu}
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+
+              {/* Product Categories Section */}
+              <li className="pt-3">
+                <h3 className="text-gray-500 uppercase text-xs font-medium mb-2">PRODUCT CATEGORIES</h3>
+                <ul className="space-y-2">
+                  {Object.entries(categoryGroups).map(([name, href]) => (
+                    <li key={name}>
+                      <Link href={href} className="block py-1.5 text-sm text-gray-700" onClick={closeMenu}>
+>>>>>>> friend/main
                         {name}
                       </Link>
                     </li>
@@ -393,6 +592,7 @@ export default function Header() {
                 </ul>
               </li>
 
+<<<<<<< HEAD
               <li>
                 <Link
                   href="/about"
@@ -414,6 +614,9 @@ export default function Header() {
               </li>
 
               <li className="pt-4">
+=======
+              <li className="pt-3">
+>>>>>>> friend/main
                 <Link href="/cart" className="flex items-center py-2" onClick={closeMenu}>
                   <ShoppingCart className="h-5 w-5 mr-2" />
                   <span>Cart ({cartItems.length})</span>
@@ -423,11 +626,20 @@ export default function Header() {
               <li>
                 {user ? (
                   <div className="space-y-2">
+<<<<<<< HEAD
                     <Link href="/account" className="block py-2" onClick={closeMenu}>
                       My Account
                     </Link>
                     {isAdmin && (
                       <Link href="/admin" className="block py-2 text-amber-500" onClick={closeMenu}>
+=======
+                    <Link href="/account" className="flex items-center py-2" onClick={closeMenu}>
+                      <User className="h-5 w-5 mr-2 fill-black" />
+                      <span>My Account</span>
+                    </Link>
+                    {isAdmin && (
+                      <Link href="/admin" className="block py-2 text-sm text-amber-500" onClick={closeMenu}>
+>>>>>>> friend/main
                         Admin Dashboard
                       </Link>
                     )}
@@ -437,7 +649,11 @@ export default function Header() {
                         closeMenu()
                         router.push("/")
                       }}
+<<<<<<< HEAD
                       className="block py-2 text-red-600"
+=======
+                      className="block py-2 text-sm text-red-600"
+>>>>>>> friend/main
                     >
                       Sign Out
                     </button>
@@ -453,6 +669,12 @@ export default function Header() {
           </nav>
         </div>
       </div>
+<<<<<<< HEAD
     </header>
   )
 }
+=======
+    </div>
+  )
+}
+>>>>>>> friend/main

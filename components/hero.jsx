@@ -2,7 +2,11 @@ import Link from "next/link"
 
 export default function Hero() {
   return (
+<<<<<<< HEAD
     <div className="relative h-screen">
+=======
+    <div className="relative h-[70vh] sm:h-screen">
+>>>>>>> friend/main
       <div className="absolute inset-0">
         <video 
           autoPlay 
@@ -17,6 +21,7 @@ export default function Hero() {
       </div>
 
       <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-4">
+<<<<<<< HEAD
         <h1 className="text-5xl md:text-7xl font-light mb-6 tracking-wider">
           Design Studio <span className="mx-2">-</span> furniture <span className="mx-2">-</span> Interior
         </h1>
@@ -25,10 +30,24 @@ export default function Hero() {
             Explore Collection
           </Link>
           <Link href="/contact" className="btn-outline text-lg px-8 py-3">
+=======
+        <h1 className="text-4xl md:text-7xl font-light mb-4 md:mb-6 tracking-wider">
+          Design Studio <span className="mx-2">-</span> furniture <span className="mx-2">-</span> Interior
+        </h1>
+        <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-6 md:mt-10">
+          <Link href="/products" className="btn-primary text-lg px-8 py-2 md:py-3">
+            Explore Collection
+          </Link>
+          <Link href="/contact" className="btn-outline text-lg px-8 py-2 md:py-3">
+>>>>>>> friend/main
             Contact Us
           </Link>
         </div>
       </div>
     </div>
   )
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> friend/main

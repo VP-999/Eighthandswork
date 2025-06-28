@@ -34,7 +34,11 @@ export default function AboutSection() {
             </div>
             <div className="aspect-square relative rounded-lg shadow-lg overflow-hidden">
               <Image
+<<<<<<< HEAD
                 src="/431004194_720510356811733_8702085066583440443_n.png"
+=======
+                src="/product12.png"
+>>>>>>> friend/main
                 alt="Eight Hands Work Furniture"
                 fill
                 className="object-cover"
@@ -42,12 +46,17 @@ export default function AboutSection() {
             </div>
             <div className="aspect-square relative rounded-lg shadow-lg overflow-hidden">
               <Image
+<<<<<<< HEAD
                 src="/431214722_720510426811726_2133496110283236576_n.png"
+=======
+                src="/product21.png"
+>>>>>>> friend/main
                 alt="Eight Hands Work Furniture"
                 fill
                 className="object-cover"
               />
             </div>
+<<<<<<< HEAD
             <div className="aspect-square relative rounded-lg shadow-lg overflow-hidden bg-gray-900 p-4 flex items-center justify-center">
               <Image
                 src="/Logo PNG _2.png"
@@ -55,6 +64,14 @@ export default function AboutSection() {
                 width={150}
                 height={150}
                 className="object-contain"
+=======
+            <div className="aspect-square relative rounded-lg shadow-lg overflow-hidden">
+              <Image
+                src="/product3.png"
+                alt="Eight Hands Work Furniture"
+                fill
+                className="object-cover"
+>>>>>>> friend/main
               />
             </div>
           </div>
@@ -62,4 +79,8 @@ export default function AboutSection() {
       </div>
     </section>
   )
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> friend/main

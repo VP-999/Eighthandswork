@@ -84,6 +84,7 @@ export default function RoomShowcase() {
   };
 
   return (
+<<<<<<< HEAD
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
@@ -95,6 +96,19 @@ export default function RoomShowcase() {
             <div 
               key={roomIndex}
               className="group relative overflow-hidden rounded-lg shadow-lg h-80"
+=======
+    <section className="py-8 md:py-16 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-6 md:mb-12">
+          Explore Our Room Collections
+        </h2>
+
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-8">
+          {rooms.map((room, roomIndex) => (
+            <div 
+              key={roomIndex}
+              className="group relative overflow-hidden rounded-2xl shadow-lg h-36 sm:h-48 md:h-80 border border-gray-100"
+>>>>>>> friend/main
             >
               <div className="relative w-full h-full">
                 {room.images.map((image, imageIndex) => (
@@ -113,12 +127,17 @@ export default function RoomShowcase() {
                       src={image}
                       alt={`${room.name} - View ${imageIndex + 1}`}
                       fill
+<<<<<<< HEAD
                       className="object-cover"
+=======
+                      className="object-cover rounded-2xl"
+>>>>>>> friend/main
                       priority={imageIndex === 0}
                     />
                   </motion.div>
                 ))}
                 
+<<<<<<< HEAD
                 {/* Navigation Dots */}
                 <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2 z-10">
                   {room.images.map((_, imageIndex) => (
@@ -127,6 +146,16 @@ export default function RoomShowcase() {
                       className={`w-2 h-2 rounded-full transition-all duration-300 ${
                         currentImages[roomIndex] === imageIndex 
                           ? "bg-white w-4" 
+=======
+                {/* Navigation Dots - Hide on smallest screens */}
+                <div className="absolute bottom-1 md:bottom-4 left-0 right-0 flex justify-center space-x-1 md:space-x-2 z-10">
+                  {room.images.map((_, imageIndex) => (
+                    <button
+                      key={imageIndex}
+                      className={`w-1 h-1 md:w-2 md:h-2 rounded-full transition-all duration-300 ${
+                        currentImages[roomIndex] === imageIndex 
+                          ? "bg-white md:w-4 w-2" 
+>>>>>>> friend/main
                           : "bg-white/50"
                       }`}
                       onClick={() => {
@@ -141,9 +170,15 @@ export default function RoomShowcase() {
                   ))}
                 </div>
                 
+<<<<<<< HEAD
                 {/* Navigation Arrows */}
                 <button 
                   className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+=======
+                {/* Navigation Arrows - Hide on mobile */}
+                <button 
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity z-10 hidden md:block"
+>>>>>>> friend/main
                   onClick={(e) => {
                     e.preventDefault();
                     prevImage(roomIndex);
@@ -154,7 +189,11 @@ export default function RoomShowcase() {
                 </button>
                 
                 <button 
+<<<<<<< HEAD
                   className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+=======
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity z-10 hidden md:block"
+>>>>>>> friend/main
                   onClick={(e) => {
                     e.preventDefault();
                     nextImage(roomIndex);
@@ -165,6 +204,7 @@ export default function RoomShowcase() {
                 </button>
               </div>
               
+<<<<<<< HEAD
               <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition-all duration-300">
                 <Link
                   href={`/products?category=${encodeURIComponent(room.category)}`}
@@ -172,11 +212,24 @@ export default function RoomShowcase() {
                 >
                   <motion.div 
                     className="bg-white/80 backdrop-blur-sm text-gray-900 py-2 px-6 rounded-md mb-3"
+=======
+              <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition-all duration-300 rounded-2xl">
+                <Link
+                  href={`/products?category=${encodeURIComponent(room.category)}`}
+                  className="absolute inset-0 flex flex-col items-center justify-center text-white p-2 md:p-6 z-5"
+                >
+                  <motion.div 
+                    className="bg-white/80 backdrop-blur-sm text-gray-900 py-1 px-3 md:py-2 md:px-6 rounded-xl mb-1 md:mb-3"
+>>>>>>> friend/main
                     initial={{ y: -20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                   >
+<<<<<<< HEAD
                     <h3 className="text-xl font-bold">{room.name}</h3>
+=======
+                    <h3 className="text-sm md:text-xl font-bold">{room.name}</h3>
+>>>>>>> friend/main
                   </motion.div>
                   
                   <motion.p 
@@ -195,4 +248,8 @@ export default function RoomShowcase() {
       </div>
     </section>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> friend/main

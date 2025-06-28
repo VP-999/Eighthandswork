@@ -53,6 +53,7 @@ export default function Login() {
     }
   }
 
+<<<<<<< HEAD
   const handleAdminLogin = async () => {
     setIsLoading(true)
     setError(null)
@@ -104,6 +105,8 @@ export default function Login() {
     }
   }
 
+=======
+>>>>>>> friend/main
   if (!isInitialized) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -191,6 +194,7 @@ export default function Login() {
             </button>
           </div>
         </form>
+<<<<<<< HEAD
 
         {/* Admin login shortcut */}
         <div className="mt-4 border-t pt-4">
@@ -210,3 +214,9 @@ export default function Login() {
     </div>
   )
 }
+=======
+      </div>
+    </div>
+  )
+}
+>>>>>>> friend/main
